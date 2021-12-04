@@ -1,20 +1,23 @@
 export const books = [
   {
     id: 1,
-    name: 'Foundation',
+    title: 'Foundation',
     author: 'Isac Asimov',
-    description: 'A science fiction novel',
+    description:
+      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut beatae enim aut quas, adipisci, consequuntur nostrum magnam, molestiae velit aperiam optio. ',
   },
   {
     id: 2,
-    name: 'The Hammer of God',
+    title: 'The Hammer of God',
     author: 'Arthur C Clark',
-    description: 'A big science fiction novel',
+    description:
+      'Consequuntur nostrum magnam, molestiae velit aperiam optio. Necessitatibus, quas velit fugit quisquam officia sit cupiditate deserunt.',
   },
   {
     id: 3,
-    name: 'Next',
+    title: 'Next',
     author: 'Michael Crichton',
-    description: 'An awesome science fiction novel on Genes',
+    description:
+      'Lorem ipsum dolor, sit amet consectetur adipisicing elit.  velit aperiam optio. Necessitatibus, quas velit fugit quisquam officia sit cupiditate deserunt.',
   },
 ];
