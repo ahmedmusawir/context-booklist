@@ -54,65 +54,47 @@ function BookListPage() {
     setIsEdit((prev) => (prev = !prev));
     setIsSave((prev) => (prev = !prev));
   };
-
-  //   const handleSingle = (e) => {
-  //     e.preventDefault();
-  //     const dataType = e.target.name;
-
-  //     if (dataType === 'title') {
-  //       bookList.map((book) => {
-  //         return book.id === Number(e.target.id)
-  //           ? (e.target.readOnly = false)
-  //           : null;
-  //       });
-  //     }
-  //     if (dataType === 'author') {
-  //       bookList.map((book) => {
-  //         return book.id === Number(e.target.id)
-  //           ? (e.target.readOnly = false)
-  //           : null;
-  //       });
-  //     }
-  //     if (dataType === 'description') {
-  //       bookList.map((book) => {
-  //         return book.id === Number(e.target.id)
-  //           ? (e.target.readOnly = false)
-  //           : null;
-  //       });
-  //     }
-  //   };
-
-  //   const handleBlur = (e) => {
-  //     e.preventDefault();
-  //     // console.log(e.target);
-  //     bookList.map((book) => {
-  //       return book.id === Number(e.target.id)
-  //         ? (e.target.readOnly = true)
-  //         : null;
-  //     });
-  //   };
+  const handleAdd = (e) => {
+    e.preventDefault();
+    console.log('Add form should show up now!');
+  };
 
   return (
     <Page wide={true} pageTitle='Movie Form'>
       <Row className='justify-content-center'>
         <Col sm={12}>
           <Content width='w-100' cssClassNames='bg-light mt-3'>
-            <button
-              type='button'
-              className='btn btn-info btn-block'
-              onClick={handleEdit}
-              disabled={isSave}
-            >
-              Edit
-            </button>
-            <button
-              type='button'
-              className='btn btn-secondary btn-block mb-2'
-              onClick={handleSave}
-              disabled={isEdit}
-            >
-              Save
-            </button>
+            <Row>
+              <Col sm={4}>
+                <button
+                  type='button'
+                  className='btn btn-info btn-block'
+                  onClick={handleEdit}
+                  disabled={isSave}
+                >
+                  Edit
+                </button>
+              </Col>
+              <Col sm={4}>
+                <button
+                  type='button'
+                  className='btn btn-secondary btn-block mb-2'
+                  onClick={handleSave}
+                  disabled={isEdit}
+                >
+                  Save
+                </button>
+              </Col>
+              <Col sm={4}>
+                <button
+                  type='button'
+                  className='btn btn-success btn-block mb-2'
+                  onClick={handleAdd}
+                >
+                  Add New
+                </button>
+              </Col>
+            </Row>
             {bookList.map((book) => (
               <main key={book.id} className='single-item'>
                 <form>
