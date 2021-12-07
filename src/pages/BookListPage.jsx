@@ -2,15 +2,40 @@ import React, { useState } from 'react';
 import Page from '../components/layouts/Page';
 import { Row, Col } from 'react-bootstrap';
 import Content from '../components/layouts/Content';
+import { Formik, Form } from 'formik';
+import FormikControl from '../components/formik/FormikControl';
+import * as Yup from 'yup';
+import { v4 as uuidv4 } from 'uuid';
 import { books } from '../data';
+import './FormikComp.scss';
 
 function BookListPage() {
   const initialState = books;
   const [bookList, setBookList] = useState(initialState);
   const [isEdit, setIsEdit] = useState(true);
   const [isSave, setIsSave] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  //   console.log(bookList);
 
-  const handleChange = (e) => {
+  //   FORMIK INFO
+  const initialValues = {
+    title: '',
+    author: '',
+    description: '',
+  };
+  const onSubmit = (values, { resetForm }) => {
+    console.log(values);
+    // resetForm({ values: initialValues });
+    const bookObj = { id: uuidv4(), ...values };
+    setBookList([...bookList, bookObj]);
+  };
+  const validationSchema = Yup.object({
+    title: Yup.string().required('Title is Required!'),
+    author: Yup.string().required('Author is Required!'),
+    description: Yup.string().required('Description is Required!'),
+  });
+
+  const handleUpdate = (e) => {
     const dataType = e.target.name;
 
     if (dataType === 'title') {
@@ -18,7 +43,10 @@ function BookListPage() {
         bookList.map((book) => {
           // console.log('Book ID: ', typeof book.id);
           // console.log('E.target ID: ', typeof e.target.id);
-          return book.id === Number(e.target.id)
+          //   return book.id === Number(e.target.id)
+          //     ? { ...book, [e.target.name]: e.target.value }
+          //     : book;
+          return book.id === e.target.id
             ? { ...book, [e.target.name]: e.target.value }
             : book;
         })
@@ -27,7 +55,7 @@ function BookListPage() {
     if (dataType === 'author') {
       setBookList(
         bookList.map((book) => {
-          return book.id === Number(e.target.id)
+          return book.id === e.target.id
             ? { ...book, [e.target.name]: e.target.value }
             : book;
         })
@@ -36,7 +64,7 @@ function BookListPage() {
     if (dataType === 'description') {
       setBookList(
         bookList.map((book) => {
-          return book.id === Number(e.target.id)
+          return book.id === e.target.id
             ? { ...book, [e.target.name]: e.target.value }
             : book;
         })
@@ -56,7 +84,8 @@ function BookListPage() {
   };
   const handleAdd = (e) => {
     e.preventDefault();
-    console.log('Add form should show up now!');
+    // console.log('Add form should show up now!');
+    setShowForm((prev) => (prev = !prev));
   };
 
   return (
@@ -64,11 +93,12 @@ function BookListPage() {
       <Row className='justify-content-center'>
         <Col sm={12}>
           <Content width='w-100' cssClassNames='bg-light mt-3'>
+            {/* BUTTON BAR */}
             <Row>
               <Col sm={4}>
                 <button
                   type='button'
-                  className='btn btn-info btn-block'
+                  className='btn btn-info btn-block mb-2'
                   onClick={handleEdit}
                   disabled={isSave}
                 >
@@ -95,6 +125,78 @@ function BookListPage() {
                 </button>
               </Col>
             </Row>
+            {/* ADD NEW FORM */}
+            <Row>
+              {/* FORMIK FORM */}
+              <Col sm={12}>
+                {showForm && (
+                  <Formik
+                    initialValues={initialValues}
+                    onSubmit={onSubmit}
+                    validationSchema={validationSchema}
+                  >
+                    {(formik) => (
+                      <Form className='p-3 bg-light formik-comp'>
+                        {/* BOOK TITLE */}
+                        <div className='mb-2'>
+                          <FormikControl
+                            control='input'
+                            type='text'
+                            name='title'
+                            label='Book Title'
+                            placeholder='Title of the Book'
+                            className={
+                              formik.touched.title && formik.errors.title
+                                ? 'form-control is-invalid'
+                                : 'form-control'
+                            }
+                          />
+                        </div>
+                        {/* BOOK AUTHOR */}
+                        <div className='mb-2'>
+                          <FormikControl
+                            control='input'
+                            type='text'
+                            name='author'
+                            label='Book Author'
+                            placeholder='Author of the Book'
+                            className={
+                              formik.touched.author && formik.errors.author
+                                ? 'form-control is-invalid'
+                                : 'form-control'
+                            }
+                          />
+                        </div>
+                        {/* TEXT AREA */}
+                        <div className='mb-3'>
+                          <FormikControl
+                            control='textarea'
+                            name='description'
+                            label='Description'
+                            placeholder='Book Description'
+                            rows={4}
+                            className={
+                              formik.touched.description &&
+                              formik.errors.description
+                                ? 'form-control is-invalid'
+                                : 'form-control'
+                            }
+                          />
+                        </div>
+                        <hr className='bg-primary' />
+                        <button className='btn btn-primary' type='submit'>
+                          Submit
+                        </button>
+                        <button className='btn btn-warning ml-1' type='reset'>
+                          Reset
+                        </button>
+                      </Form>
+                    )}
+                  </Formik>
+                )}
+              </Col>
+            </Row>
+            {/* THE BOOK LIST */}
             {bookList.map((book) => (
               <main key={book.id} className='single-item'>
                 <form>
@@ -112,10 +214,7 @@ function BookListPage() {
                       className={
                         isEdit ? 'form-control normal-view' : 'form-control'
                       }
-                      onChange={handleChange}
-                      //   onClick={handleSingle}
-                      //   onBlur={handleBlur}
-                      //   readOnly={true}
+                      onChange={handleUpdate}
                     />
                     <div
                       className={isEdit ? 'd-none' : 'alert alert-secondary'}
@@ -135,10 +234,7 @@ function BookListPage() {
                       className={
                         isEdit ? 'form-control normal-view' : 'form-control'
                       }
-                      onChange={handleChange}
-                      //   onClick={handleSingle}
-                      //   onBlur={handleBlur}
-                      //   readOnly={true}
+                      onChange={handleUpdate}
                     />
                     <div
                       className={isEdit ? 'd-none' : 'alert alert-secondary'}
@@ -159,10 +255,7 @@ function BookListPage() {
                         isEdit ? 'form-control normal-view' : 'form-control'
                       }
                       rows={3}
-                      onChange={handleChange}
-                      //   onClick={handleSingle}
-                      //   onBlur={handleBlur}
-                      //   readOnly={true}
+                      onChange={handleUpdate}
                     />
                     <div
                       className={isEdit ? 'd-none' : 'alert alert-secondary'}

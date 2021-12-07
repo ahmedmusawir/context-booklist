@@ -2,7 +2,7 @@ import React from 'react';
 import Page from '../components/layouts/Page';
 import { Row, Col } from 'react-bootstrap';
 import Content from '../components/layouts/Content';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import FormikControl from '../components/formik/FormikControl';
 import * as Yup from 'yup';
 import './FormikComp.scss';
