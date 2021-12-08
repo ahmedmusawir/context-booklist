@@ -4,7 +4,14 @@
 }
 .single-item {
   margin-bottom: 2rem;
+  padding-top: 0.5rem;
   box-shadow: 3px 3px 10px darken($color: #e3e3e3, $amount: 10%);
+  background-color: lighten($color: #e3e3e3, $amount: 0%);
+  // background-color: lighten($color: #e3e3e3, $amount: 9%);
+}
+.delete-icon {
+  margin-bottom: 0.75rem;
+  margin-right: 0.5rem;
 }
 textarea {
   resize: none;
