@@ -11,10 +11,13 @@
     "proptypes": "^1.1.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.3",
+    "react-datepicker": "^4.5.0",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.1.2",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
