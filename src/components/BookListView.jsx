@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FaTrashAlt } from 'react-icons/fa';
+import { BookContext } from '../contexts/BookContext';
 
 function BookListView({
   id,
@@ -12,12 +13,13 @@ function BookListView({
   onSingle,
   onBlur,
 }) {
+  const { removeBook } = useContext(BookContext);
   return (
     <main className='single-item'>
       <FaTrashAlt
         color='red'
         className='float-right delete-icon'
-        onClick={() => onDelete(id)}
+        onClick={() => removeBook(id)}
       />
       <input
         id={id}

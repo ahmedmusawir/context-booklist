@@ -1,52 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import Page from '../components/layouts/Page';
 import { Row, Col } from 'react-bootstrap';
 import Content from '../components/layouts/Content';
-import { books } from '../data';
 import BookListView from '../components/BookListView';
 import BookAddForm from '../components/BookAddForm';
+import { BookContext } from '../contexts/BookContext';
 
 function BookListPage() {
-  const localData = localStorage.getItem('books');
-  const initialState = localData ? JSON.parse(localData) : books;
-  const [bookList, setBookList] = useState(initialState);
   const [showForm, setShowForm] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem('books', JSON.stringify(bookList));
-  }, [bookList]);
-
-  const handleChange = (e) => {
-    const dataType = e.target.name;
-
-    if (dataType === 'title') {
-      setBookList(
-        bookList.map((book) => {
-          return book.id === e.target.id
-            ? { ...book, [e.target.name]: e.target.value }
-            : book;
-        })
-      );
-    }
-    if (dataType === 'author') {
-      setBookList(
-        bookList.map((book) => {
-          return book.id === e.target.id
-            ? { ...book, [e.target.name]: e.target.value }
-            : book;
-        })
-      );
-    }
-    if (dataType === 'description') {
-      setBookList(
-        bookList.map((book) => {
-          return book.id === e.target.id
-            ? { ...book, [e.target.name]: e.target.value }
-            : book;
-        })
-      );
-    }
-  };
+  const { bookList, setBookList, handleChange } = useContext(BookContext);
 
   const handleSingle = (e) => {
     e.preventDefault();
@@ -75,10 +37,6 @@ function BookListPage() {
     bookList.map((book) => {
       return book.id === e.target.id ? (e.target.readOnly = true) : null;
     });
-  };
-
-  const handleDelete = (id) => {
-    setBookList(bookList.filter((book) => book.id !== id));
   };
 
   const handleAdd = () => {
@@ -114,7 +72,6 @@ function BookListPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   onSingle={handleSingle}
-                  onDelete={handleDelete}
                 />
               ))
             ) : (

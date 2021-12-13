@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import FormikControl from '../components/formik/FormikControl';
 import * as Yup from 'yup';
-import { v4 as uuidv4 } from 'uuid';
-import '../pages/FormikComp.scss';
+import { v4 as uuid } from 'uuid';
+import { BookContext } from '../contexts/BookContext';
 
-function BookAddForm({ data, addBook }) {
+function BookAddForm() {
+  // COLLECTING INFO FROM CONTEXT
+  const { bookList: data, setBookList: addBook } = useContext(BookContext);
   //   FORMIK INFO
   const initialValues = {
     title: '',
@@ -15,8 +17,8 @@ function BookAddForm({ data, addBook }) {
   };
   const onSubmit = (values, { resetForm }) => {
     console.log(values);
-    // resetForm({ values: initialValues });
-    const bookObj = { id: uuidv4(), ...values };
+    resetForm({ values: initialValues });
+    const bookObj = { id: uuid(), ...values };
     addBook([...data, bookObj]);
   };
   const validationSchema = Yup.object({
