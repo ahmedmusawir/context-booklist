@@ -1,14 +1,13 @@
 import React, { createContext, useReducer, useEffect } from 'react';
+import { books } from '../data';
 import { BookReducer } from '../reducers/BookReducer';
 
 export const BookContext = createContext();
 
 function BookContextProvider(props) {
-  const initialState = [];
-  const [bookList, dispatch] = useReducer(BookReducer, initialState, () => {
-    const localData = localStorage.getItem('books');
-    return localData ? JSON.parse(localData) : initialState;
-  });
+  const localData = localStorage.getItem('books');
+  const initialState = localData ? JSON.parse(localData) : books;
+  const [bookList, dispatch] = useReducer(BookReducer, initialState);
 
   useEffect(() => {
     localStorage.setItem('books', JSON.stringify(bookList));

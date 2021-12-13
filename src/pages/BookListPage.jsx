@@ -8,7 +8,18 @@ import { BookContext } from '../contexts/BookContext';
 
 function BookListPage() {
   const [showForm, setShowForm] = useState(false);
-  const { bookList, setBookList, handleChange } = useContext(BookContext);
+  const { bookList, dispatch } = useContext(BookContext);
+
+  const handleChange = (e) => {
+    dispatch({
+      type: 'HANDLE_CHANGE',
+      payload: {
+        id: e.target.id,
+        name: e.target.name,
+        value: e.target.value,
+      },
+    });
+  };
 
   const handleSingle = (e) => {
     e.preventDefault();
@@ -55,7 +66,7 @@ function BookListPage() {
             Add New
           </button>
           <hr className='bg-primary' />
-          {showForm && <BookAddForm data={bookList} addBook={setBookList} />}
+          {showForm && <BookAddForm data={bookList} />}
         </Col>
       </Row>
       <Row className='justify-content-center'>

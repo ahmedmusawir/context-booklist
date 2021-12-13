@@ -2,24 +2,25 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FaTrashAlt } from 'react-icons/fa';
 import { BookContext } from '../contexts/BookContext';
+import { BookReducer } from '../reducers/BookReducer';
 
 function BookListView({
   id,
   title,
   author,
   description,
-  onDelete,
   onChange,
   onSingle,
   onBlur,
 }) {
-  const { removeBook } = useContext(BookContext);
+  // const { removeBook } = useContext(BookContext);
+  const { dispatch } = useContext(BookContext);
   return (
     <main className='single-item'>
       <FaTrashAlt
         color='red'
         className='float-right delete-icon'
-        onClick={() => removeBook(id)}
+        onClick={() => dispatch({ type: 'REMOVE_BOOK', id })}
       />
       <input
         id={id}

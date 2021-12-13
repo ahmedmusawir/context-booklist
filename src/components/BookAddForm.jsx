@@ -8,7 +8,8 @@ import { BookContext } from '../contexts/BookContext';
 
 function BookAddForm() {
   // COLLECTING INFO FROM CONTEXT
-  const { bookList: data, setBookList: addBook } = useContext(BookContext);
+  // const { bookList: data, setBookList: addBook } = useContext(BookContext);
+  const { dispatch } = useContext(BookContext);
   //   FORMIK INFO
   const initialValues = {
     title: '',
@@ -19,7 +20,8 @@ function BookAddForm() {
     console.log(values);
     resetForm({ values: initialValues });
     const bookObj = { id: uuid(), ...values };
-    addBook([...data, bookObj]);
+    // addBook([...data, bookObj]);
+    dispatch({ type: 'ADD_BOOK', book: bookObj });
   };
   const validationSchema = Yup.object({
     title: Yup.string().required('Title is Required!'),
